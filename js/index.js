@@ -3,10 +3,8 @@ const tableArea = document.querySelector(".table-area");
 const table = document.createElement("table");
 // --------------------------------------------------------------------
 function createTable() {
+  // declare
   const titles = document.createElement("tr");
-  tableArea.appendChild(table);
-  table.appendChild(titles);
-
   const idTitle = document.createElement("th");
   const fNameTitle = document.createElement("th");
   const lNameTitle = document.createElement("th");
@@ -17,7 +15,10 @@ function createTable() {
   const hobbyTitle = document.createElement("th");
   const button1 = document.createElement("th");
   const button2 = document.createElement("th");
-
+  //   append
+  tableArea.appendChild(table);
+  table.appendChild(titles);
+  //   call
   createTitleRow(idTitle, "ID", titles);
   createTitleRow(fNameTitle, "First Name", titles);
   createTitleRow(lNameTitle, "Last Name", titles);
@@ -81,25 +82,6 @@ function createStudentRows() {
     delBtn.addEventListener("click", deleteRow);
   }
 }
-
-// --------------------------------------------------------------------
-function editRow(event) {
-  console.log(event.target);
-  console.log("row=", event.target.parentElement.parentElement);
-  editFields(event);
-  replaceButtons(event);
-}
-// --------------------------------------------------------------------
-function replaceButtons(event) {
-  const editBtn = event.target;
-  const delBtn = event.target.nextSibling;
-  editBtn.textContent = "Cancel";
-  delBtn.textContent = "Apply";
-  editBtn.removeEventListener("click", editRow);
-  delBtn.removeEventListener("click", deleteRow);
-  editBtn.addEventListener("click", cancelEdit);
-  delBtn.addEventListener("click", applyEdit);
-}
 // --------------------------------------------------------------------
 function deleteRow(event) {
   const id = event.target.parentElement.parentElement.id.replace("student", "");
@@ -122,7 +104,25 @@ function editFields(event) {
     el.appendChild(fieldInput);
   }
 }
+// --------------------------------------------------------------------
+function replaceButtons(event) {
+  const editBtn = event.target;
+  const delBtn = event.target.nextSibling;
+  editBtn.textContent = "Cancel";
+  delBtn.textContent = "Apply";
+  editBtn.removeEventListener("click", editRow);
+  delBtn.removeEventListener("click", deleteRow);
+  editBtn.addEventListener("click", cancelEdit);
+  delBtn.addEventListener("click", applyEdit);
+}
 
+// --------------------------------------------------------------------
+function editRow(event) {
+  console.log(event.target);
+  console.log("row=", event.target.parentElement.parentElement);
+  editFields(event);
+  replaceButtons(event);
+}
 // --------------------------------------------------------------------
 function cancelEdit(event) {
   console.log(event.target);
@@ -146,8 +146,6 @@ function cancelEdit(event) {
 }
 
 // --------------------------------------------------------------------
-
-// --------------------------------------------------------------------
 function applyEdit(event) {
   const id = event.target.parentElement.parentElement.id.replace("student", "");
   const els = event.target.parentElement.parentElement.children;
@@ -159,6 +157,12 @@ function applyEdit(event) {
   allStudents[index].city = els[5].firstChild.value;
   allStudents[index].gender = els[6].firstChild.value;
   allStudents[index].hobby = els[7].firstChild.value;
+  for (let i = 1; i < els.length - 1; i++) {
+    const input = els[i].firstChild;
+    const inputValue = els[i].firstChild.value;
+    input.remove();
+    els[i].textContent = inputValue;
+  }
   console.log(allStudents[index]);
 }
 

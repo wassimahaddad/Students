@@ -4,22 +4,23 @@
   padding: 0;
 }
 
-.search-bar {
-  display: inline-block;
-}
-
 .page-container {
   width: 70vw;
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.search-bar {
+  display: flex;
+  height: 10vh;
+  width: 20vw;
+}
 .table-area {
   width: 100%;
 }
 
 table {
   width: 100%;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 th {
