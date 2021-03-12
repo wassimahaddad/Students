@@ -16,6 +16,7 @@ function createTable() {
   const buttons = document.createElement("th");
   // classes
   titles.classList.add("titles");
+  idTitle.id = "id-title";
   //   append
   tableArea.appendChild(table);
   table.appendChild(titles);
@@ -70,8 +71,6 @@ function createStudentRows() {
     studentCity.textContent = allStudents[i].city;
     studentGender.textContent = allStudents[i].gender;
     studentHobby.textContent = allStudents[i].hobby;
-    // editBtn.textContent = "Edit";
-    // delBtn.textContent = "Delete";
     // classed,id,attr
     editBtn.id = `left-button${allStudents[i].id}`;
     editBtn.classList.add("edit-button");
@@ -118,11 +117,9 @@ function editFields(event) {
   }
 }
 // --------------------------------------------------------------------
-function replaceButtons(event) {
+function flipButtons(event) {
   const editBtn = event.target;
   const delBtn = event.target.nextSibling;
-  //   editBtn.textContent = "Cancel";
-  //   delBtn.textContent = "Apply";
   editBtn.classList.remove("edit-button");
   editBtn.classList.add("cancel-button");
   delBtn.classList.remove("del-button");
@@ -138,7 +135,18 @@ function editRow(event) {
   console.log(event.target);
   console.log("row=", event.target.parentElement.parentElement);
   editFields(event);
-  replaceButtons(event);
+  flipButtons(event);
+}
+// --------------------------------------------------------------------
+function flipButtonsBack(button1, button2) {
+  button1.classList.remove("cancel-button");
+  button1.classList.add("edit-button");
+  button2.classList.remove("ok-button");
+  button2.classList.add("del-button");
+  button1.removeEventListener("click", cancelEdit);
+  button2.removeEventListener("click", applyEdit);
+  button1.addEventListener("click", editRow);
+  button2.addEventListener("click", deleteRow);
 }
 // --------------------------------------------------------------------
 function cancelEdit(event) {
@@ -154,14 +162,7 @@ function cancelEdit(event) {
   }
   const editBtn = event.target;
   const delBtn = event.target.nextSibling;
-  editBtn.classList.remove("cancel-button");
-  editBtn.classList.add("edit-button");
-  delBtn.classList.remove("ok-button");
-  delBtn.classList.add("del-button");
-  editBtn.removeEventListener("click", cancelEdit);
-  delBtn.removeEventListener("click", applyEdit);
-  editBtn.addEventListener("click", editRow);
-  delBtn.addEventListener("click", deleteRow);
+  flipButtonsBack(editBtn, delBtn);
 }
 
 // --------------------------------------------------------------------
@@ -185,14 +186,7 @@ function applyEdit(event) {
   console.log(allStudents[index]);
   const editBtn = event.target.previousSibling;
   const delBtn = event.target;
-  editBtn.classList.remove("cancel-button");
-  editBtn.classList.add("edit-button");
-  delBtn.classList.remove("ok-button");
-  delBtn.classList.add("del-button");
-  editBtn.removeEventListener("click", cancelEdit);
-  delBtn.removeEventListener("click", applyEdit);
-  editBtn.addEventListener("click", editRow);
-  delBtn.addEventListener("click", deleteRow);
+  flipButtonsBack(editBtn, delBtn);
 }
 
 // --------------------------------------------------------------------

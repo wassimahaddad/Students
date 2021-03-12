@@ -59,6 +59,13 @@ td {
   width: 200px;
 }
 
+#id-title {
+  text-align: center;
+}
+.student-ids {
+  text-align: center;
+}
+
 input {
   width: 100%;
 }
@@ -89,18 +96,8 @@ button {
 
 /* .numbers-long {
   width: 7%;
-}
-.numbers {
-  width: 4%;
-}
-.gender {
-  width: 7%;
-}
+
 
 .first-last {
   width: 10%;
-}
-
-.student-ids {
-  margin-left: 10%;
 } */
