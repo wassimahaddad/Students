@@ -1,11 +1,47 @@
 // --------------------------------------------------------------------
 const tableArea = document.querySelector(".table-area");
 const table = document.createElement("table");
-table.classList.add("students-table");
-tableArea.appendChild(table);
+// --------------------------------------------------------------------
+function createTitleRow(el, text, parent) {
+  el.textContent = text;
+  parent.appendChild(el);
+}
+// --------------------------------------------------------------------
+function createTable() {
+  // declare
+  const titles = document.createElement("tr");
+
+  const idTitle = document.createElement("th");
+  const fNameTitle = document.createElement("th");
+  const lNameTitle = document.createElement("th");
+  const capsTitle = document.createElement("th");
+  const ageTitle = document.createElement("th");
+  const cityTitle = document.createElement("th");
+  const genderTitle = document.createElement("th");
+  const hobbyTitle = document.createElement("th");
+  const buttons = document.createElement("th");
+  // classes
+  titles.classList.add("titles");
+  idTitle.id = "id-title";
+  //   append
+  tableArea.appendChild(table);
+
+  table.appendChild(titles);
+  //   call
+  createTitleRow(idTitle, "ID", titles);
+  createTitleRow(fNameTitle, "First Name", titles);
+  createTitleRow(lNameTitle, "Last Name", titles);
+  createTitleRow(capsTitle, "Capsule", titles);
+  createTitleRow(ageTitle, "Age", titles);
+  createTitleRow(cityTitle, "City", titles);
+  createTitleRow(genderTitle, "Gender", titles);
+  createTitleRow(hobbyTitle, "Hobby", titles);
+  createTitleRow(buttons, "", titles);
+}
+
 // --------------------------------------------------------------------
 function createStudentRows(arr) {
-  // table.innerHTML = "";
+  table.innerHTML = "";
   for (let i = 0; i < arr.length; i++) {
     // decalre
     const studentRow = document.createElement("tr");
@@ -60,7 +96,7 @@ function deleteRow(event) {
   const index = allStudents.findIndex((obj) => obj.id === parseInt(id));
   allStudents.splice(index, 1);
   table.innerHTML = "";
-  // createTable();
+  createTable();
   createStudentRows(allStudents);
 }
 
@@ -69,12 +105,9 @@ function editFields(event) {
   const els = event.target.parentElement.parentElement.children;
   for (let i = 1; i < els.length - 1; i++) {
     const el = els[i];
-    const content = el.textContent;
+    const field = el.textContent;
     const fieldInput = document.createElement("input");
-    if (i === 3 || i === 4) {
-      fieldInput.type = "number";
-    }
-    fieldInput.value = content;
+    fieldInput.value = field;
     fieldInput.classList.add("edit-inputs");
     el.textContent = "";
     el.appendChild(fieldInput);
@@ -140,12 +173,8 @@ function applyEdit(event) {
   allStudents[index].hobby = els[7].firstChild.value;
   for (let i = 1; i < els.length - 1; i++) {
     const input = els[i].firstChild;
-    let inputValue = els[i].firstChild.value;
+    const inputValue = els[i].firstChild.value;
     input.remove();
-    if (i !== 3 || i != 4) {
-      inputValue = inputValue.toLowerCase();
-      inputValue = inputValue.charAt(0).toUpperCase() + inputValue.slice(1);
-    }
     els[i].textContent = inputValue;
   }
   const editBtn = event.target.previousSibling;
@@ -185,14 +214,13 @@ function searchText(event) {
       }
     }
   }
-  table.innerHTML = "";
   createStudentRows(searchArr);
 }
 // --------------------------------------------------------------------
-
+createTable();
+createStudentRows(allStudents);
 const searchField = document.querySelector("#search-field");
 searchField.addEventListener("input", searchText);
 const searchTitle = document.querySelector("#dropdown");
 searchTitle.addEventListener("change", searchIn);
 let searchedTitle = "Search by";
-createStudentRows(allStudents);
