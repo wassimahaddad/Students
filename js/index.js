@@ -5,7 +5,6 @@ let allStudents = [];
 async function getStudentData() {
   const result = await fetch(students_API);
   const parsed = await result.json();
-  console.log(parsed);
   for (let i = 0; i < parsed.length; i++) {
     allStudents.push(parsed[i]);
   }
@@ -13,7 +12,6 @@ async function getStudentData() {
   for (let i = 0; i < allStudents.length; i++) {
     const result = await fetch(`${students_API}/${i}`);
     const parsed = await result.json();
-    console.log(parsed);
     allStudents[i].age = parsed.age;
     allStudents[i].city = parsed.city;
     allStudents[i].gender = parsed.gender;
@@ -84,10 +82,8 @@ function createStudentRows(arr) {
 function deleteRow(event) {
   const id = event.target.parentElement.parentElement.id.replace("student", "");
   const index = allStudents.findIndex((obj) => obj.id === parseInt(id));
+  event.target.parentElement.parentElement.remove();
   allStudents.splice(index, 1);
-  table.innerHTML = "";
-  // createTable();
-  createStudentRows(allStudents);
 }
 
 // --------------------------------------------------------------------
