@@ -36,6 +36,8 @@ body {
   border-bottom-right-radius: 10px;
   padding-left: 5px;
 }
+
+/* ----------------- Table ---------------------------- */
 .table-area {
   width: 100%;
 }
@@ -59,17 +61,20 @@ td {
   width: 200px;
 }
 
-#id-title {
-  text-align: center;
-}
+#id-title,
 .student-ids {
   text-align: center;
 }
-
+/* ----------------- input fields ---------------------- */
 input {
   width: 100%;
 }
 
+.edit-inputs {
+  font-size: 20px;
+}
+
+/* ----------------- buttons ---------------------------- */
 button {
   width: 40px;
   height: 40px;
@@ -93,11 +98,3 @@ button {
   background: url("../img/ok-green.png") no-repeat center center/cover;
   /* background-color: white; */
 }
-
-/* .numbers-long {
-  width: 7%;
-
-
-.first-last {
-  width: 10%;
-} */

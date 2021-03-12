@@ -2,6 +2,11 @@
 const tableArea = document.querySelector(".table-area");
 const table = document.createElement("table");
 // --------------------------------------------------------------------
+function createTitleRow(el, text, parent) {
+  el.textContent = text;
+  parent.appendChild(el);
+}
+// --------------------------------------------------------------------
 function createTable() {
   // declare
   const titles = document.createElement("tr");
@@ -31,14 +36,11 @@ function createTable() {
   createTitleRow(hobbyTitle, "Hobby", titles);
   createTitleRow(buttons, "", titles);
 }
+
 // --------------------------------------------------------------------
-function createTitleRow(el, text, parent) {
-  el.textContent = text;
-  parent.appendChild(el);
-}
-// --------------------------------------------------------------------
-function createStudentRows() {
-  for (let i = 0; i < allStudents.length; i++) {
+function createStudentRows(arr) {
+  table.innerHTML = "";
+  for (let i = 0; i < arr.length; i++) {
     // decalre
     const studentRow = document.createElement("tr");
     const studentId = document.createElement("td");
@@ -53,28 +55,28 @@ function createStudentRows() {
     const editBtn = document.createElement("button");
     const delBtn = document.createElement("button");
     // Id,class, data
-    studentRow.id = `student${allStudents[i].id}`;
-    studentId.classList.add("numbers");
+    studentRow.id = `student${arr[i].id}`;
     studentId.classList.add("student-ids");
-    studentCapsule.classList.add("numbers-long");
-    studentAge.classList.add("numbers");
-    studentGender.classList.add("gender");
-    studentfName.classList.add("first-last");
-    studentlName.classList.add("first-last");
-    buttons.classList.add("row-buttons");
+    // studentId.classList.add("numbers");
+    // studentCapsule.classList.add("numbers-long");
+    // studentAge.classList.add("numbers");
+    // studentGender.classList.add("gender");
+    // studentfName.classList.add("first-last");
+    // studentlName.classList.add("first-last");
+    // buttons.classList.add("row-buttons");
     // assign
-    studentId.textContent = allStudents[i].id;
-    studentfName.textContent = allStudents[i].firstName;
-    studentlName.textContent = allStudents[i].lastName;
-    studentCapsule.textContent = allStudents[i].capsule;
-    studentAge.textContent = allStudents[i].age;
-    studentCity.textContent = allStudents[i].city;
-    studentGender.textContent = allStudents[i].gender;
-    studentHobby.textContent = allStudents[i].hobby;
+    studentId.textContent = arr[i].id;
+    studentfName.textContent = arr[i].firstName;
+    studentlName.textContent = arr[i].lastName;
+    studentCapsule.textContent = arr[i].capsule;
+    studentAge.textContent = arr[i].age;
+    studentCity.textContent = arr[i].city;
+    studentGender.textContent = arr[i].gender;
+    studentHobby.textContent = arr[i].hobby;
     // classed,id,attr
-    editBtn.id = `left-button${allStudents[i].id}`;
+    editBtn.id = `left-button${arr[i].id}`;
     editBtn.classList.add("edit-button");
-    delBtn.id = `right-button${allStudents[i].id}`;
+    delBtn.id = `right-button${arr[i].id}`;
     delBtn.classList.add("del-button");
     // append
     table.appendChild(studentRow);
@@ -112,6 +114,7 @@ function editFields(event) {
     const field = el.textContent;
     const fieldInput = document.createElement("input");
     fieldInput.value = field;
+    fieldInput.classList.add("edit-inputs");
     el.textContent = "";
     el.appendChild(fieldInput);
   }
@@ -128,6 +131,7 @@ function flipButtons(event) {
   delBtn.removeEventListener("click", deleteRow);
   editBtn.addEventListener("click", cancelEdit);
   delBtn.addEventListener("click", applyEdit);
+  document.activeElement.blur();
 }
 
 // --------------------------------------------------------------------
@@ -147,6 +151,7 @@ function flipButtonsBack(button1, button2) {
   button2.removeEventListener("click", applyEdit);
   button1.addEventListener("click", editRow);
   button2.addEventListener("click", deleteRow);
+  document.activeElement.blur();
 }
 // --------------------------------------------------------------------
 function cancelEdit(event) {
@@ -191,5 +196,45 @@ function applyEdit(event) {
 
 // --------------------------------------------------------------------
 
+const searchField = document.querySelector("#search-field");
+searchField.addEventListener("input", searchText);
+const searchTitle = document.querySelector("#dropdown");
+searchTitle.addEventListener("change", searchIn);
+let searchedTitle = "Search by";
+function searchIn(event) {
+  const title = event.target.value;
+  console.log(title);
+  searchedTitle = title;
+}
+
+function searchText(event) {
+  const cat = searchTitle.children;
+  let text = event.target.value;
+  let searchArr = [];
+  let temp;
+  if (searchedTitle === cat[0].textContent) {
+    searchArr = allStudents;
+  }
+  for (let i = 1; i < cat.length; i++) {
+    if (searchedTitle === cat[i].textContent) {
+      for (let j = 0; j < allStudents.length; j++) {
+        temp = Object.values(allStudents[j])[i];
+        if (typeof temp === "string") {
+          temp = temp.toLowerCase();
+          text = text.toLowerCase();
+          console.log(text);
+        }
+        if (typeof temp === "number") {
+          temp = temp.toString();
+        }
+        if (temp.includes(text)) {
+          searchArr.push(allStudents[j]);
+        }
+      }
+    }
+  }
+  createStudentRows(searchArr);
+}
+
 createTable();
-createStudentRows();
+createStudentRows(allStudents);
