@@ -1,3 +1,29 @@
+const students_API = "https://apple-seeds.herokuapp.com/api/users/";
+const proxy = "https://cors.bridged.cc/";
+let allStudents = [];
+
+async function getStudentData() {
+  const result = await fetch(students_API);
+  const parsed = await result.json();
+  console.log(parsed);
+  for (let i = 0; i < parsed.length; i++) {
+    allStudents.push(parsed[i]);
+  }
+
+  for (let i = 0; i < allStudents.length; i++) {
+    const result = await fetch(`${students_API}/${i}`);
+    const parsed = await result.json();
+    console.log(parsed);
+    allStudents[i].age = parsed.age;
+    allStudents[i].city = parsed.city;
+    allStudents[i].gender = parsed.gender;
+    allStudents[i].hobby = parsed.hobby;
+  }
+  console.log(allStudents);
+  document.querySelector(".page-loader").classList.add("hidden"); //remove spinner
+  createStudentRows(allStudents);
+}
+
 // --------------------------------------------------------------------
 const tableArea = document.querySelector(".table-area");
 const table = document.createElement("table");
@@ -189,10 +215,9 @@ function searchText(event) {
   createStudentRows(searchArr);
 }
 // --------------------------------------------------------------------
-
+getStudentData();
 const searchField = document.querySelector("#search-field");
 searchField.addEventListener("input", searchText);
 const searchTitle = document.querySelector("#dropdown");
 searchTitle.addEventListener("change", searchIn);
 let searchedTitle = "Search by";
-createStudentRows(allStudents);

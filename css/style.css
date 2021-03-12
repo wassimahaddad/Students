@@ -3,15 +3,63 @@
   margin: auto;
   padding: 0;
 }
-
 body {
   background-color: #333;
 }
+
 .page-container {
   width: 81vw;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
 }
+
+/* --------------------- spinner ----------------------- */
+.page-loader {
+  background: transparent;
+  position: absolute;
+  top: 10vh;
+  left: 35%;
+  height: 20%;
+  width: 30%;
+}
+
+.spinner {
+  margin-top: 50vh;
+  margin-left: auto;
+  margin-right: auto;
+  border: blanchedalmond 5px solid;
+  border-top: orangered 5px solid;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  animation-name: goaround;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in;
+}
+
+.message {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 20px;
+  color: orangered;
+}
+
+@keyframes goaround {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
 /* --------------------- Search bar----------------------- */
 .search-bar {
   display: flex;
