@@ -95,7 +95,7 @@ function deleteRow(event) {
   allStudents.splice(index, 1);
   table.innerHTML = "";
   createTable();
-  createStudentRows();
+  createStudentRows(allStudents);
 }
 
 // --------------------------------------------------------------------
