@@ -57,14 +57,6 @@ function createStudentRows(arr) {
     // Id,class, data
     studentRow.id = `student${arr[i].id}`;
     studentId.classList.add("student-ids");
-    // studentId.classList.add("numbers");
-    // studentCapsule.classList.add("numbers-long");
-    // studentAge.classList.add("numbers");
-    // studentGender.classList.add("gender");
-    // studentfName.classList.add("first-last");
-    // studentlName.classList.add("first-last");
-    // buttons.classList.add("row-buttons");
-    // assign
     studentId.textContent = arr[i].id;
     studentfName.textContent = arr[i].firstName;
     studentlName.textContent = arr[i].lastName;
@@ -136,8 +128,6 @@ function flipButtons(event) {
 
 // --------------------------------------------------------------------
 function editRow(event) {
-  console.log(event.target);
-  console.log("row=", event.target.parentElement.parentElement);
   editFields(event);
   flipButtons(event);
 }
@@ -155,12 +145,9 @@ function flipButtonsBack(button1, button2) {
 }
 // --------------------------------------------------------------------
 function cancelEdit(event) {
-  console.log(event.target);
   const els = event.target.parentElement.parentElement.children;
-  console.log(els);
   for (let i = 1; i < els.length - 1; i++) {
     const input = els[i].firstChild;
-    console.log(input);
     const inputValue = els[i].firstChild.value;
     input.remove();
     els[i].textContent = inputValue;
@@ -188,7 +175,6 @@ function applyEdit(event) {
     input.remove();
     els[i].textContent = inputValue;
   }
-  console.log(allStudents[index]);
   const editBtn = event.target.previousSibling;
   const delBtn = event.target;
   flipButtonsBack(editBtn, delBtn);
@@ -196,17 +182,11 @@ function applyEdit(event) {
 
 // --------------------------------------------------------------------
 
-const searchField = document.querySelector("#search-field");
-searchField.addEventListener("input", searchText);
-const searchTitle = document.querySelector("#dropdown");
-searchTitle.addEventListener("change", searchIn);
-let searchedTitle = "Search by";
 function searchIn(event) {
   const title = event.target.value;
-  console.log(title);
   searchedTitle = title;
 }
-
+// --------------------------------------------------------------------
 function searchText(event) {
   const cat = searchTitle.children;
   let text = event.target.value;
@@ -222,7 +202,6 @@ function searchText(event) {
         if (typeof temp === "string") {
           temp = temp.toLowerCase();
           text = text.toLowerCase();
-          console.log(text);
         }
         if (typeof temp === "number") {
           temp = temp.toString();
@@ -235,6 +214,12 @@ function searchText(event) {
   }
   createStudentRows(searchArr);
 }
+// --------------------------------------------------------------------
 
+const searchField = document.querySelector("#search-field");
+searchField.addEventListener("input", searchText);
+const searchTitle = document.querySelector("#dropdown");
+searchTitle.addEventListener("change", searchIn);
+let searchedTitle = "Search by";
 createTable();
 createStudentRows(allStudents);
