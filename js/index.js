@@ -13,8 +13,9 @@ function createTable() {
   const cityTitle = document.createElement("th");
   const genderTitle = document.createElement("th");
   const hobbyTitle = document.createElement("th");
-  const button1 = document.createElement("th");
-  const button2 = document.createElement("th");
+  const buttons = document.createElement("th");
+  // classes
+  titles.classList.add("titles");
   //   append
   tableArea.appendChild(table);
   table.appendChild(titles);
@@ -22,13 +23,12 @@ function createTable() {
   createTitleRow(idTitle, "ID", titles);
   createTitleRow(fNameTitle, "First Name", titles);
   createTitleRow(lNameTitle, "Last Name", titles);
-  createTitleRow(capsTitle, "Capsule No.", titles);
+  createTitleRow(capsTitle, "Capsule", titles);
   createTitleRow(ageTitle, "Age", titles);
   createTitleRow(cityTitle, "City", titles);
   createTitleRow(genderTitle, "Gender", titles);
   createTitleRow(hobbyTitle, "Hobby", titles);
-  createTitleRow(button1, "", titles);
-  createTitleRow(button2, "", titles);
+  createTitleRow(buttons, "", titles);
 }
 // --------------------------------------------------------------------
 function createTitleRow(el, text, parent) {
@@ -53,6 +53,14 @@ function createStudentRows() {
     const delBtn = document.createElement("button");
     // Id,class, data
     studentRow.id = `student${allStudents[i].id}`;
+    studentId.classList.add("numbers");
+    studentId.classList.add("student-ids");
+    studentCapsule.classList.add("numbers-long");
+    studentAge.classList.add("numbers");
+    studentGender.classList.add("gender");
+    studentfName.classList.add("first-last");
+    studentlName.classList.add("first-last");
+    buttons.classList.add("row-buttons");
     // assign
     studentId.textContent = allStudents[i].id;
     studentfName.textContent = allStudents[i].firstName;
@@ -62,8 +70,13 @@ function createStudentRows() {
     studentCity.textContent = allStudents[i].city;
     studentGender.textContent = allStudents[i].gender;
     studentHobby.textContent = allStudents[i].hobby;
-    editBtn.textContent = "Edit";
-    delBtn.textContent = "Delete";
+    // editBtn.textContent = "Edit";
+    // delBtn.textContent = "Delete";
+    // classed,id,attr
+    editBtn.id = `left-button${allStudents[i].id}`;
+    editBtn.classList.add("edit-button");
+    delBtn.id = `right-button${allStudents[i].id}`;
+    delBtn.classList.add("del-button");
     // append
     table.appendChild(studentRow);
     studentRow.appendChild(studentId);
@@ -108,8 +121,12 @@ function editFields(event) {
 function replaceButtons(event) {
   const editBtn = event.target;
   const delBtn = event.target.nextSibling;
-  editBtn.textContent = "Cancel";
-  delBtn.textContent = "Apply";
+  //   editBtn.textContent = "Cancel";
+  //   delBtn.textContent = "Apply";
+  editBtn.classList.remove("edit-button");
+  editBtn.classList.add("cancel-button");
+  delBtn.classList.remove("del-button");
+  delBtn.classList.add("ok-button");
   editBtn.removeEventListener("click", editRow);
   delBtn.removeEventListener("click", deleteRow);
   editBtn.addEventListener("click", cancelEdit);
@@ -137,8 +154,10 @@ function cancelEdit(event) {
   }
   const editBtn = event.target;
   const delBtn = event.target.nextSibling;
-  editBtn.textContent = "Edit";
-  delBtn.textContent = "Delete";
+  editBtn.classList.remove("cancel-button");
+  editBtn.classList.add("edit-button");
+  delBtn.classList.remove("ok-button");
+  delBtn.classList.add("del-button");
   editBtn.removeEventListener("click", cancelEdit);
   delBtn.removeEventListener("click", applyEdit);
   editBtn.addEventListener("click", editRow);
@@ -164,6 +183,16 @@ function applyEdit(event) {
     els[i].textContent = inputValue;
   }
   console.log(allStudents[index]);
+  const editBtn = event.target.previousSibling;
+  const delBtn = event.target;
+  editBtn.classList.remove("cancel-button");
+  editBtn.classList.add("edit-button");
+  delBtn.classList.remove("ok-button");
+  delBtn.classList.add("del-button");
+  editBtn.removeEventListener("click", cancelEdit);
+  delBtn.removeEventListener("click", applyEdit);
+  editBtn.addEventListener("click", editRow);
+  delBtn.addEventListener("click", deleteRow);
 }
 
 // --------------------------------------------------------------------

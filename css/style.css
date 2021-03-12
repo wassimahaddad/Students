@@ -4,15 +4,37 @@
   padding: 0;
 }
 
+body {
+  background-color: #333;
+}
 .page-container {
-  width: 70vw;
+  width: 75vw;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
 }
 
 .search-bar {
   display: flex;
   height: 10vh;
-  width: 20vw;
+  width: 30vw;
+}
+
+#dropdown {
+  height: 40%;
+  font-size: 16px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding-left: 5px;
+  color: orangered;
+  font-weight: bold;
+}
+
+#search-field {
+  height: 40%;
+  font-size: 16px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-left: 5px;
 }
 .table-area {
   width: 100%;
@@ -20,16 +42,20 @@
 
 table {
   width: 100%;
-  /* border: 1px solid black; */
+  color: #ccc;
 }
 
 th {
   text-align: left;
   width: 200px;
   padding: 5px;
+  color: orangered;
+  border-bottom: 1px solid black;
+  padding-bottom: 10px;
 }
 td {
   padding: 5px;
+  padding-top: 10px;
   width: 200px;
 }
 
@@ -38,7 +64,43 @@ input {
 }
 
 button {
-  width: 50px;
+  width: 40px;
+  height: 40px;
   margin-right: 5px;
   margin-left: 5px;
 }
+
+.edit-button {
+  background: url("../img/edit-color.png") no-repeat center center/cover;
+  /* background-color: white; */
+}
+.del-button {
+  background: url("../img/delete-red.png") no-repeat center center/cover;
+  /* background-color: white; */
+}
+.cancel-button {
+  background: url("../img/cancel-red.png") no-repeat center center/cover;
+  /* background-color: white; */
+}
+.ok-button {
+  background: url("../img/ok-green.png") no-repeat center center/cover;
+  /* background-color: white; */
+}
+
+/* .numbers-long {
+  width: 7%;
+}
+.numbers {
+  width: 4%;
+}
+.gender {
+  width: 7%;
+}
+
+.first-last {
+  width: 10%;
+}
+
+.student-ids {
+  margin-left: 10%;
+} */
