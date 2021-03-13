@@ -1,7 +1,40 @@
 const students_API = "https://apple-seeds.herokuapp.com/api/users/";
-const proxy = "https://cors.bridged.cc/";
 let allStudents = [];
-
+// --------------------------------------------------------------------
+const tableArea = document.querySelector(".table-area");
+const table = document.createElement("table");
+table.classList.add("students-table");
+tableArea.appendChild(table);
+// --------------------------------------------------------------------
+function createStudentRows(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    const studentRow = document.createElement("tr");
+    const buttons = document.createElement("td");
+    const editBtn = document.createElement("button");
+    const delBtn = document.createElement("button");
+    const values = Object.values(arr[i]);
+    for (let j = 0; j < values.length; j++) {
+      const el = document.createElement("td");
+      el.textContent = values[j];
+      studentRow.appendChild(el);
+    }
+    //class,ids,
+    studentRow.id = `student${arr[i].id}`;
+    editBtn.id = `left-button${arr[i].id}`;
+    editBtn.classList.add("edit-button");
+    delBtn.id = `right-button${arr[i].id}`;
+    delBtn.classList.add("del-button");
+    // append
+    table.appendChild(studentRow);
+    studentRow.appendChild(buttons);
+    buttons.appendChild(editBtn);
+    buttons.appendChild(delBtn);
+    // event listeners
+    editBtn.addEventListener("click", editRow);
+    delBtn.addEventListener("click", deleteRow);
+  }
+}
+// --------------------------------------------------------------------
 async function getStudentData() {
   const result = await fetch(students_API);
   const parsed = await result.json();
@@ -21,63 +54,6 @@ async function getStudentData() {
   document.querySelector(".page-loader").classList.add("hidden"); //remove spinner
   createStudentRows(allStudents);
 }
-
-// --------------------------------------------------------------------
-const tableArea = document.querySelector(".table-area");
-const table = document.createElement("table");
-table.classList.add("students-table");
-tableArea.appendChild(table);
-// --------------------------------------------------------------------
-function createStudentRows(arr) {
-  //this function needs shrinking with a loop
-  for (let i = 0; i < arr.length; i++) {
-    // decalre
-    const studentRow = document.createElement("tr");
-    const studentId = document.createElement("td");
-    const studentfName = document.createElement("td");
-    const studentlName = document.createElement("td");
-    const studentCapsule = document.createElement("td");
-    const studentAge = document.createElement("td");
-    const studentCity = document.createElement("td");
-    const studentGender = document.createElement("td");
-    const studentHobby = document.createElement("td");
-    const buttons = document.createElement("td");
-    const editBtn = document.createElement("button");
-    const delBtn = document.createElement("button");
-    // Id,class, data
-    studentRow.id = `student${arr[i].id}`;
-    studentId.classList.add("student-ids");
-    studentId.textContent = arr[i].id;
-    studentfName.textContent = arr[i].firstName;
-    studentlName.textContent = arr[i].lastName;
-    studentCapsule.textContent = arr[i].capsule;
-    studentAge.textContent = arr[i].age;
-    studentCity.textContent = arr[i].city;
-    studentGender.textContent = arr[i].gender;
-    studentHobby.textContent = arr[i].hobby;
-    // classed,id,attr
-    editBtn.id = `left-button${arr[i].id}`;
-    editBtn.classList.add("edit-button");
-    delBtn.id = `right-button${arr[i].id}`;
-    delBtn.classList.add("del-button");
-    // append
-    table.appendChild(studentRow);
-    studentRow.appendChild(studentId);
-    studentRow.appendChild(studentfName);
-    studentRow.appendChild(studentlName);
-    studentRow.appendChild(studentCapsule);
-    studentRow.appendChild(studentAge);
-    studentRow.appendChild(studentCity);
-    studentRow.appendChild(studentGender);
-    studentRow.appendChild(studentHobby);
-    studentRow.appendChild(buttons);
-    buttons.appendChild(editBtn);
-    buttons.appendChild(delBtn);
-    // event listeners
-    editBtn.addEventListener("click", editRow);
-    delBtn.addEventListener("click", deleteRow);
-  }
-}
 // --------------------------------------------------------------------
 function deleteRow(event) {
   const id = event.target.parentElement.parentElement.id.replace("student", "");
@@ -85,7 +61,6 @@ function deleteRow(event) {
   event.target.parentElement.parentElement.remove();
   allStudents.splice(index, 1);
 }
-
 // --------------------------------------------------------------------
 function editFields(event) {
   const els = event.target.parentElement.parentElement.children;
@@ -116,7 +91,6 @@ function flipButtons(event) {
   delBtn.addEventListener("click", applyEdit);
   document.activeElement.blur();
 }
-
 // --------------------------------------------------------------------
 function editRow(event) {
   editFields(event);
@@ -147,7 +121,6 @@ function cancelEdit(event) {
   const delBtn = event.target.nextSibling;
   flipButtonsBack(editBtn, delBtn);
 }
-
 // --------------------------------------------------------------------
 function applyEdit(event) {
   const id = event.target.parentElement.parentElement.id.replace("student", "");
@@ -174,9 +147,8 @@ function applyEdit(event) {
   const delBtn = event.target;
   flipButtonsBack(editBtn, delBtn);
 }
-
 // --------------------------------------------------------------------
-
+let searchedTitle = "Search by";
 function searchIn(event) {
   const title = event.target.value;
   searchedTitle = title;
@@ -216,4 +188,3 @@ const searchField = document.querySelector("#search-field");
 searchField.addEventListener("input", searchText);
 const searchTitle = document.querySelector("#dropdown");
 searchTitle.addEventListener("change", searchIn);
-let searchedTitle = "Search by";
