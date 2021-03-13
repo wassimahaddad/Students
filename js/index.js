@@ -29,7 +29,7 @@ table.classList.add("students-table");
 tableArea.appendChild(table);
 // --------------------------------------------------------------------
 function createStudentRows(arr) {
-  // table.innerHTML = "";
+  //this function needs shrinking with a loop
   for (let i = 0; i < arr.length; i++) {
     // decalre
     const studentRow = document.createElement("tr");
