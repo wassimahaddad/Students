@@ -1,4 +1,5 @@
 const students_API = "https://apple-seeds.herokuapp.com/api/users/";
+let allStudents = [];
 // --------------------------------------------------------------------
 const tableArea = document.querySelector(".table-area");
 const table = document.createElement("table");
@@ -35,7 +36,6 @@ function createStudentRows(arr) {
 }
 // --------------------------------------------------------------------
 async function getStudentData() {
-  const allStudents = [];
   const result = await fetch(students_API);
   const parsed = await result.json();
   for (let i = 0; i < parsed.length; i++) {
@@ -51,23 +51,15 @@ async function getStudentData() {
     allStudents[i].hobby = parsed.hobby;
   }
   console.log(allStudents);
-  localStorage.setItem("data", JSON.stringify(allStudents));
   document.querySelector(".page-loader").classList.add("hidden"); //remove spinner
   createStudentRows(allStudents);
 }
 // --------------------------------------------------------------------
 function deleteRow(event) {
   const id = event.target.parentElement.parentElement.id.replace("student", "");
-  const index = JSON.parse(localStorage.getItem("data")).findIndex(
-    (obj) => obj.id === parseInt(id)
-  );
-
-  console.log(index);
-  let allStudents = JSON.parse(localStorage.getItem("data"));
-  allStudents.splice(index, 1);
-  localStorage.setItem("data", JSON.stringify(allStudents));
+  const index = allStudents.findIndex((obj) => obj.id === parseInt(id));
   event.target.parentElement.parentElement.remove();
-  // allStudents.splice(index, 1);
+  allStudents.splice(index, 1);
 }
 // --------------------------------------------------------------------
 function editFields(event) {
@@ -133,7 +125,6 @@ function cancelEdit(event) {
 function applyEdit(event) {
   const id = event.target.parentElement.parentElement.id.replace("student", "");
   const els = event.target.parentElement.parentElement.children;
-  const allStudents = JSON.parse(localStorage.getItem("data"));
   const index = allStudents.findIndex((obj) => obj.id === parseInt(id));
   allStudents[index].firstName = els[1].firstChild.value;
   allStudents[index].lastName = els[2].firstChild.value;
@@ -142,7 +133,6 @@ function applyEdit(event) {
   allStudents[index].city = els[5].firstChild.value;
   allStudents[index].gender = els[6].firstChild.value;
   allStudents[index].hobby = els[7].firstChild.value;
-  localStorage.setItem("data", JSON.stringify(allStudents));
   for (let i = 1; i < els.length - 1; i++) {
     const input = els[i].firstChild;
     let inputValue = els[i].firstChild.value;
@@ -165,7 +155,6 @@ function searchIn(event) {
 }
 // --------------------------------------------------------------------
 function searchText(event) {
-  const allStudents = JSON.parse(localStorage.getItem("data"));
   const cat = searchTitle.children;
   let text = event.target.value;
   let searchArr = [];
@@ -194,12 +183,7 @@ function searchText(event) {
   createStudentRows(searchArr);
 }
 // --------------------------------------------------------------------
-if (localStorage.length === 0 || localStorage.data === "[]") {
-  getStudentData();
-} else {
-  document.querySelector(".page-loader").classList.add("hidden"); //remove spinner
-  createStudentRows(JSON.parse(localStorage.getItem("data")));
-}
+getStudentData();
 const searchField = document.querySelector("#search-field");
 searchField.addEventListener("input", searchText);
 const searchTitle = document.querySelector("#dropdown");
