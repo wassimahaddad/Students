@@ -184,7 +184,7 @@ function searchText(event) {
         if (typeof temp === "number") {
           temp = temp.toString();
         }
-        if (temp.includes(text) && temp.charAt(0) === text.charAt(0)) {
+        if (temp.includes(text)) {
           searchArr.push(allStudents[j]);
         }
       }
